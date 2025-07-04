@@ -110,6 +110,7 @@ def update(taskno):
             categories = cur.fetchall()
     return render_template("update.html", taskno=taskno, task=task, category = category, categories = categories)
 
+init_table()
+
 if __name__=="__main__":
-    init_table()
     app.run(debug=True)
