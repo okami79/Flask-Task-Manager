@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}" />
+    <title>Task Manager</title>
+</head>
+<body>
+    <h1>Task Manager</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash">
+        {% for category, message in messages: %}
+        <li class="{{category}}">{{message}}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    <table>
+        <tr>
+            <th>Sl. No</th>
+            <th>Task</th>
+            <th>Category</th>
+            <th>Status</th>
+            <th>Date Added</th>
+            <th>Action</th>
+        </tr>
+        {% for task in tasks: %}
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{task[1]}}</td>
+            <td>{{task[3]}}</td>
+            <td>{{"Done" if task[2] else "Undone"}}</td>
+            <td>{{task[4]}}</td>
+            <td><a class="delete" href="/delete/{{task[0]}}">Delete</a>
+                <br />
+                <a class="done" href="/done/{{task[0]}}">Done</a>
+                <br />
+                <a class="update" href="/update/{{task[0]}}">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <form action="/" method="post">
+        <input type="text" id="task" name="task" placeholder="Enter task..." required>
+        <br />
+        <input type="text" id="category" name="cattext" placeholder="Enter new category...">
+        <p>OR</p>
+        <select name="catdrop" id="category">
+            <option selected value="">--Select existing category--</option>
+            {% for cat in categories: %}
+            <option value="{{cat[0]}}">{{cat[0]}}</option>
+            {% endfor %}
+        </select>
+        <br />
+        <button type="submit">Add Task</button>
+    </form>
+</body>
+</html>
