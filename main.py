@@ -63,6 +63,7 @@ def index():
         else:
             category = request.form.get("cattext") or request.form.get("catdrop")
             AddTask(task, category)
+        return redirect("/")
     with get_db() as con:
         cur = con.cursor()
         cur.execute("SELECT * FROM tasks ORDER BY category")
